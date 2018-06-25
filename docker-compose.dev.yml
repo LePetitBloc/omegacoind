@@ -1,0 +1,41 @@
+version: '3'
+services:
+  wallet:
+    build:
+      build:
+        context: .
+        args:
+          REPOSITORY: 'https://github.com/omegacoinnetwork/omegacoin'
+          REF: master
+    restart: always
+    ports:
+      - '7777:7777'
+      - '7778:7778'
+    command:
+      - '-rpcuser=omegacoin-wallet'
+      - '-rpcpassword=5nbqagnl'
+      - '-server=1'
+      - '-listen=0'
+    volumes:
+      - './wallet/:/home/omegacoin/'
+  masternode:
+    build:
+      build:
+        context: .
+        args:
+          REPOSITORY: 'https://github.com/omegacoinnetwork/omegacoin'
+          REF: master
+    restart: always
+    ports:
+      - '7777:7777'
+      - '7778:7778'
+    command:
+      - '-rpcuser=omegacoin-mn01'
+      - '-rpcpassword=5nbqagnl'
+      - '-rpcallowip=::/0'
+      - '-server=0'
+      - '-listen=1'
+      - '-masternode=1'
+      - '-masternodeprivkey=YourMasternodePrivKey'
+    volumes:
+      - './masternode/:/home/omegacoin/'
